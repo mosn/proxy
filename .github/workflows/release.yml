@@ -1,0 +1,16 @@
+name: CI triggered by release branch
+on:
+  push:
+    branches:
+    - 'release-*'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
