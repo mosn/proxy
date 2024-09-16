@@ -1,0 +1,28 @@
+name: CI triggered by release branch
+on:
+  push:
+    branches:
+    - 'release-*'
+
+jobs:
+  release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+    - name: Maximize build space
+      uses: AdityaGarg8/remove-unwanted-software@v4.1
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Setup Bazel
+      uses: bazel-contrib/setup-bazel@0.8.5
+      with:
+        bazelisk-cache: true
+        disk-cache: true
+        repository-cache: true
+        external-cache: true
+    - name: Build
+      run: |
+        make build_envoy
